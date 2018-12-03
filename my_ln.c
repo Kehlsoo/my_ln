@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 
 /*******************************
  * Lab 13
@@ -13,35 +14,36 @@
 
 int main (int argc, char *argv[]) {
 
-	// Check command line arguments.
-	for (int i = 1; i < argc; i++) {
+	/* old file*/
+	char old[50];
 
-	// Was a file path given.
-	if (argc > 1 && strchr(argv[argc - 1], '/') != NULL) {
-		strcpy(fp, argv[argc - 1]);
+	/* new file */
+	char new[50];
+
+	/* hard link flag */
+	int hFlag = 1;
+
+	//checking for soft link option
+	if (strcmp("-s", argv[1]) == 0) { 
+		hFlag = 1;
 	}
 
+	if (hFlag == 1){
+		strcpy(old, argv[1]);
+		strcpy(new, argv[2]);
 
-		if (strcmp("-s", argv[i]) == 0) { //for soft link
-			inode_n = 1;
+		//printf("old: %s\n",old );
+		//printf("new: %s\n",new );
 
+		link(old, new);
 
-
-
-
-
-
-
-		} else { //for hard link
-			file_id = 1;
-
-
-
-
-
-
-
-		}
 	}
-	
+
+	else {
+		strcpy(old, argv[2]);
+		strcpy(new, argv[3]);
+
+		//printf("%s\n",old );
+		//printf("%s\n",new );
+	}	
 }
