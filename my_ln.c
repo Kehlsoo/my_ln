@@ -14,36 +14,51 @@
 
 int main (int argc, char *argv[]) {
 
-	/* old file*/
+	/* original file*/
 	char old[50];
 
-	/* new file */
+	/* link file */
 	char new[50];
 
-	/* hard link flag */
-	int hFlag = 1;
+	/* symbolic link flag */
+	int sFlag = 0;
+
+	//checking to make sure file names are provided
+	if (argc < 3){
+		printf("Please provide an original file and a link name\n");
+		return 0;
+	}
 
 	//checking for soft link option
 	if (strcmp("-s", argv[1]) == 0) { 
-		hFlag = 1;
+		sFlag = 1;
 	}
 
-	if (hFlag == 1){
+	//creating a hard link
+	if (!sFlag){
 		strcpy(old, argv[1]);
 		strcpy(new, argv[2]);
 
-		//printf("old: %s\n",old );
-		//printf("new: %s\n",new );
+		if (link(old, new) >= 0){
+			printf("Hard link was created.\n");
+		}
 
-		link(old, new);
-
+		else {
+			printf("Hard link creation failed.\n");
+		}
 	}
 
+	//creating a symbolic link
 	else {
 		strcpy(old, argv[2]);
 		strcpy(new, argv[3]);
 
-		//printf("%s\n",old );
-		//printf("%s\n",new );
+		if (symlink(old, new) >= 0){
+			printf("Symbolic link was created.\n");
+		}
+
+		else {
+			printf("Symbolic link creation failed.\n");
+		}
 	}	
 }
